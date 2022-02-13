@@ -1,21 +1,12 @@
-import logo from './logo.svg';
 import { Navbar, NavbarBrand } from 'reactstrap';
-import Menu from './components/MenuComponent';
-import './App.css';
-import { DISHES } from './shared/dishes'
+import Main from './components/MainComponent';
 import { useState } from 'react';
+import './App.css';
 
-function App() {
-  const [dishes, setDishes] = useState(DISHES);
-  
+function App() {  
   return (
     <div>
-      <Navbar dark color='primary'>
-        <div className='container'>
-          <NavbarBrand href='/'>Ristorante Con Fusion</NavbarBrand>
-        </div>
-      </Navbar>
-      <Menu dishes={dishes} />
+      <Main />
     </div>
   );
 }

@@ -25,7 +25,7 @@ function DishDetail(props) {
 
     function formatDate(dateString){
         var date = new Date(dateString);
-        var options = {year: 'numeric', month: 'long', day: 'numeric' };
+        var options = {year: 'numeric', month: 'short', day: 'numeric' };
 
         return date.toLocaleDateString("en-US", options);
     }
@@ -51,12 +51,14 @@ function DishDetail(props) {
     if(props.dish != null)
     {
         return (
-            <div className="row">
-                <div className="col-12 col-md-5">
-                    {renderDish(props.dish)}
-                </div>
-                <div className="col-12 col-md-5">
-                    {renderComments(props.dish.comments)}
+            <div className="container">
+                <div className="row">
+                    <div className="col-12 col-md-5 m-1">
+                        {renderDish(props.dish)}
+                    </div>
+                    <div className="col-12 col-md-5 m-1">
+                        {renderComments(props.dish.comments)}
+                    </div>
                 </div>
             </div>
         );
