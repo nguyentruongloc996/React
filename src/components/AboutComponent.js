@@ -6,15 +6,15 @@ function About(props) {
 
     function LeaderRender(leader) {
         return (
-            <Media>
-                <Media left className='mr-3'>
+            <Media className='row'>
+                <Media left className='col-12 col-md-2'>
                     <Media 
                         object
                         src={leader.image}  
                         alt='Generic placeholder image'
                     />
                 </Media>
-                <Media body className='ml-3'>
+                <Media body className='col-12 col-md-9'>
                      <Media heading>{leader.name}</Media>
                      <p>{leader.designation}</p>
                      <p>{leader.description}</p>
