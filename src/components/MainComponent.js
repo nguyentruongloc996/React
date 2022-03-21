@@ -9,6 +9,7 @@ import DishDetail from "./DishdetailComponent";
 import Contact from './ContactComponent';
 import Header from "./HeaderComponent";
 import Footer from './FooterComponent';
+import About from './AboutComponent';
 import { Routes, Route, useParams } from 'react-router-dom';
 
 function Main() {
@@ -47,6 +48,7 @@ function Main() {
                 <Route exact path="/menu" element={<Menu dishes={dishes} />} />
                 <Route path="/menu/:dishId" element={<DishWithId />}/>
                 <Route path="/contactus" element={<Contact />} />
+                <Route path="/aboutus" element={<About leaders={leaders}/>} />
                 <Route path="*" element={getHomePage()}/>
             </Routes>
             <Footer />
