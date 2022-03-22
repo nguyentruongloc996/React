@@ -118,13 +118,14 @@ class Contact extends Component {
                                 </Col>
                             </FormGroup>
                             <FormGroup row>
-                                <Col md={{size:6, offset:2}}>
+                                <Col md={{size: 6, offset: 2}}>
                                     <FormGroup check>
                                         <Label check>
-                                            <Input type='checkbox' name='agree'
-                                                checked={this.state.agree} 
-                                                onChange={this.handleInputChange}/> {' '}
-                                                <strong>May we contact you</strong>
+                                            <Input type="checkbox"
+                                                name="agree"
+                                                checked={this.state.agree}
+                                                onChange={this.handleInputChange} /> {' '}
+                                            <strong>May we contact you?</strong>
                                         </Label>
                                     </FormGroup>
                                 </Col>
@@ -138,12 +139,12 @@ class Contact extends Component {
                                 </Col>
                             </FormGroup>
                             <FormGroup row>
-                                <Label htmlFor='message' md={2}>Your Feedback</Label>
+                                <Label htmlFor="message" md={2}>Your Feedback</Label>
                                 <Col md={10}>
                                     <Input type="textarea" id="message" name="message"
-                                    row="12" 
-                                    value={this.state.message}
-                                    onChange={this.handleInputChange}></Input>
+                                        rows="12"
+                                        value={this.state.message}
+                                        onChange={this.handleInputChange}></Input>
                                 </Col>
                             </FormGroup>
                             <FormGroup row>
