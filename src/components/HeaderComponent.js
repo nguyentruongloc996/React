@@ -1,12 +1,17 @@
 import React, { useState } from "react";
-import { Navbar, NavbarBrand, Nav, NavbarToggler, Collapse, NavItem } from 'reactstrap';
+import { Navbar, NavbarBrand, Nav, NavbarToggler, Collapse, NavItem, Button, Modal, ModelHeader, ModalBody } from 'reactstrap';
 import { NavLink } from 'react-router-dom';
 
 function Header(props) {
     const [isNavOpen, setIsNavOpen] = useState(false);
+    const [isModalOpen, setIsModalOpen] = useState(false);
 
     function toogleNav() {
         setIsNavOpen(!isNavOpen);
+    };
+
+    function toggleModal() {
+        setIsModalOpen(!isModalOpen);
     };
 
     return (
@@ -40,6 +45,15 @@ function Header(props) {
                                 </NavLink>
                             </NavItem>
                         </Nav>
+                        <Nav className="ml-auto" navbar>
+                            <NavItem>
+                                <Button outline onClick={toggleModal}>
+                                    <span className="fa fa-sign-in fa-lg">
+                                        Login
+                                    </span>
+                                </Button>
+                            </NavItem>
+                        </Nav>
                     </Collapse>
                 </div>
             </Navbar>
@@ -54,6 +68,13 @@ function Header(props) {
                     </div>
                 </div>
             </div>
+
+            <Modal isOpen={isModalOpen} toggle={toggleModal}>
+                <ModalHeader>Login</ModalHeader>
+                <ModalBody>
+
+                </ModalBody>
+            </Modal>
         </>
     );
 }
