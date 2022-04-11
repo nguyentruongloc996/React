@@ -3,15 +3,21 @@ import Main from './components/MainComponent';
 import { useState } from 'react';
 import './App.css';
 import { BrowserRouter } from 'react-router-dom'
+import { Provider } from 'react-redux';
+import { ConfigureStore } from './redux/configureStore';
+
+const store = ConfigureStore();
 
 function App() {  
   return (
-    <BrowserRouter>
-      <div>
-        <Main />
-      </div>
-    </BrowserRouter>
-
+    // To allow all components to access store.
+    <Provider store={store}>
+      <BrowserRouter>
+        <div>
+          <Main />
+        </div>
+      </BrowserRouter>
+    </Provider>
   );
 }
 

@@ -1,9 +1,4 @@
-import { useState } from 'react';
 import Home from './HomeComponent';
-import { DISHES } from '../shared/dishes'
-import { COMMENTS } from '../shared/comments'
-import { LEADERS } from '../shared/leaders'
-import { PROMOTIONS } from '../shared/promotions'
 import Menu from './MenuComponent';
 import DishDetail from "./DishdetailComponent";
 import Contact from './ContactComponent';
@@ -11,21 +6,27 @@ import Header from "./HeaderComponent";
 import Footer from './FooterComponent';
 import About from './AboutComponent';
 import { Routes, Route, useParams } from 'react-router-dom';
+import { connect } from 'react-redux';
 
-function Main() {
-    const [dishes, setDishes] = useState(DISHES);
-    const [comments, setComments] = useState(COMMENTS);
-    const [leaders, setLeaders] = useState(LEADERS);
-    const [promotions, setPromotions] = useState(PROMOTIONS);
-    const [selectedDish, setSelectedDish] = useState(null);
+// Map Redux Store states into Component props
+const mapStateToProps = state => {
+    return {
+        dishes: state.dishes,
+        comments: state.comments,
+        promotions: state.promotions,
+        leaders: state.leaders
+    }
+};
+
+function Main(props) {
 
     function getHomePage()
     {
         return (
             <Home 
-                dish={dishes.filter((dish) => dish.featured)[0]}
-                promotion={promotions.filter((promotion) => promotion.featured)[0]}
-                leader={leaders.filter((leader) => leader.featured)[0]}
+                dish={props.dishes.filter((dish) => dish.featured)[0]}
+                promotion={props.promotions.filter((promotion) => promotion.featured)[0]}
+                leader={props.leaders.filter((leader) => leader.featured)[0]}
             />
         );
     }
@@ -33,7 +34,7 @@ function Main() {
     function DishWithId() {
         const params = useParams();
         return (
-            <DishDetail dish={dishes.filter(dish => dish.id === parseInt(params.dishId,10))[0]} comments={comments.filter(comments => comments.dishId === parseInt(params.dishId,10))}
+            <DishDetail dish={props.dishes.filter(dish => dish.id === parseInt(params.dishId,10))[0]} comments={props.comments.filter(comments => comments.dishId === parseInt(params.dishId,10))}
             />
         );
     }
@@ -45,10 +46,10 @@ function Main() {
                 <Route path="/home" element={
                     getHomePage()
                 } />
-                <Route exact path="/menu" element={<Menu dishes={dishes} />} />
+                <Route exact path="/menu" element={<Menu dishes={props.dishes} />} />
                 <Route path="/menu/:dishId" element={<DishWithId />}/>
                 <Route path="/contactus" element={<Contact />} />
-                <Route path="/aboutus" element={<About leaders={leaders}/>} />
+                <Route path="/aboutus" element={<About leaders={props.leaders}/>} />
                 <Route path="*" element={getHomePage()}/>
             </Routes>
             <Footer />
@@ -56,4 +57,6 @@ function Main() {
     );
 }
 
-export default Main;
+// Connect this component with Redux
+// withRouter is needed to use Router in this case
+export default connect(mapStateToProps)(Main);
