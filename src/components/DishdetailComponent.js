@@ -1,5 +1,5 @@
 import React from "react";
-import { Card, CardImg, CardText, CardBody, CardTitle, Breadcrumb, BreadcrumbItem } from "reactstrap";
+import { Card, CardImg, CardText, CardBody, CardTitle, Breadcrumb, BreadcrumbItem, Button, Form, Modal } from "reactstrap";
 import { Link } from "react-router-dom";
 
 
@@ -45,7 +45,16 @@ function DishDetail(props) {
             <div>
                 <h4>Comments</h4>
                 {contents}
+                <Form onSubmit={showSubmitCommentForm}>
+                    <Button variant="outline-secondary"><span className="fa fa-pencil"></span> Submit Comment</Button>
+                </Form>
             </div>
+        );
+    }
+
+    function showSubmitCommentForm() {
+        return (
+            <CommentForm />
         );
     }
 
@@ -77,6 +86,19 @@ function DishDetail(props) {
     else {
         return (
             <div></div>
+        );
+    }
+}
+
+class CommentForm extends React.Component {
+    constructor(props) {
+        super(props);
+
+    }
+
+    render() {
+        return (
+            <></>
         );
     }
 }
