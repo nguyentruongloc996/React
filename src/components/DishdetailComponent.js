@@ -42,7 +42,7 @@ function CommentForm(props) {
                             <Row className="form-group">
                                 <Label htmlFor="ratingSelect" md={12}>Rating</Label>                         
                                 <Col md={12}>
-                                    <Control.select model='.ratingSelect' 
+                                    <Select model='.ratingSelect' 
                                     options={ratingOptions} 
                                     />
                                 </Col>
