@@ -15,8 +15,8 @@ function CommentForm(props) {
     const toggle = () => setModal(!modal);
 
     const handleSubmit = (values) => {
-        console.log("Current State is: " + JSON.stringify(values));
-        alert("Current State is: " + JSON.stringify(values));
+        toggle();
+        props.addComment(props.dishId, values.rating, values.author, values.comment);
     };
 
     const ratingOptions = [
@@ -41,20 +41,20 @@ function CommentForm(props) {
                     <ModalBody>
                         <LocalForm onSubmit={(values) => handleSubmit(values)}>
                             <Row className="form-group">
-                                <Label htmlFor="ratingSelect" md={12}>Rating</Label>                         
+                                <Label htmlFor="rating" md={12}>Rating</Label>                         
                                 <Col md={12}>
-                                    <Select model='.ratingSelect' 
+                                    <Select model='.rating' 
                                     options={ratingOptions} 
                                     />
                                 </Col>
                             </Row>
                             <Row className="form-group">
-                                <Label htmlFor="yourname" md={12}>Your Name</Label>                         
+                                <Label htmlFor="author" md={12}>Your Name</Label>                         
                                 <Col md={12}>
                                     <Control.text 
-                                        model='.yourname'
-                                        id="yourname"
-                                        name="yourname"
+                                        model='.author'
+                                        id="author"
+                                        name="author"
                                         placeholder="Your Name"
                                         className="form-control"
                                         validators={{
@@ -63,7 +63,7 @@ function CommentForm(props) {
                                     />
                                     <Errors
                                         className="text-danger"
-                                        model=".yourname"
+                                        model=".author"
                                         show="touched"
                                         messages={{
                                             required: 'Required ',
@@ -101,6 +101,31 @@ function CommentForm(props) {
     );
 }
 
+function formatDate(dateString){
+    var date = new Date(dateString);
+    var options = {year: 'numeric', month: 'short', day: 'numeric' };
+
+    return date.toLocaleDateString("en-US", options);
+}
+
+function RenderComments({comments, dishId, addComment}) {
+    const contents = comments.map(comment => {
+        return (
+            <ul key={comment.id} className="list-unstyled">
+                <li>{comment.comment}</li>
+                <li>-- {comment.author}, {formatDate(comment.date)}</li>
+            </ul>
+        );
+    });
+
+    return (
+        <div>
+            <h4>Comments</h4>
+            {contents}
+            <CommentForm dishId={dishId} addComment={addComment}/>
+        </div>
+    );
+}
 
 function DishDetail(props) {
 
@@ -123,39 +148,6 @@ function DishDetail(props) {
         }
     }
 
-    function formatDate(dateString){
-        var date = new Date(dateString);
-        var options = {year: 'numeric', month: 'short', day: 'numeric' };
-
-        return date.toLocaleDateString("en-US", options);
-    }
-
-    function showSubmitCommentForm() {
-        console.log("Try to open modal");
-        return (
-            <CommentForm />
-        );
-    }
-
-    function renderComments(comments) {
-        const contents = comments.map(comment => {
-            return (
-                <ul key={comment.id} className="list-unstyled">
-                    <li>{comment.comment}</li>
-                    <li>-- {comment.author}, {formatDate(comment.date)}</li>
-                </ul>
-            );
-        });
-
-        return (
-            <div>
-                <h4>Comments</h4>
-                {contents}
-                <CommentForm />
-            </div>
-        );
-    }
-
     if(props.dish != null)
     {
         return (
@@ -175,7 +167,11 @@ function DishDetail(props) {
                         {renderDish(props.dish)}
                     </div>
                     <div className="col-12 col-md-5 m-1">
-                        {renderComments(props.comments)}
+                        <RenderComments 
+                            comments={props.comments} 
+                            dishId={props.dish.id}
+                            addComment={props.addComment}
+                        />
                     </div>
                 </div>
             </div>
