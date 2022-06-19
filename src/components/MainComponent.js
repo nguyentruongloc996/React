@@ -9,6 +9,7 @@ import { Routes, Route, useParams } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { addComment, fetchDishes } from '../redux/ActionCreater';
 import { useEffect } from 'react';
+import { actions } from 'react-redux-form';
 
 // Map Redux Store states into Component props
 const mapStateToProps = state => {
@@ -24,7 +25,8 @@ const mapStateToProps = state => {
 // then dispatch receive that Action as parameter to send it to store
 const mapDispatchToProps = (dispatch) => ({
     addComment: (dishId, rating, author, comments) => dispatch(addComment(dishId, rating, author, comments)),
-    fetchDishes: () => {dispatch(fetchDishes())}
+    fetchDishes: () => {dispatch(fetchDishes())},
+    resetFeedbackForm: () => { dispatch(actions.reset('feedback'))}
 });
 
 function Main(props) {
@@ -68,7 +70,7 @@ function Main(props) {
                 } />
                 <Route exact path="/menu" element={<Menu dishes={props.dishes} />} />
                 <Route path="/menu/:dishId" element={<DishWithId />}/>
-                <Route path="/contactus" element={<Contact />} />
+                <Route path="/contactus" element={<Contact resetFeedbackForm={props.resetFeedbackForm} />} />
                 <Route path="/aboutus" element={<About leaders={props.leaders}/>} />
                 <Route path="*" element={getHomePage()}/>
             </Routes>
