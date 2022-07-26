@@ -7,17 +7,17 @@ import Footer from './FooterComponent';
 import About from './AboutComponent';
 import { Routes, Route, useParams } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { addComment, fetchDishes } from '../redux/ActionCreater';
+import { addComment, fetchComments, fetchDishes, fetchPromos } from '../redux/ActionCreater';
 import { useEffect } from 'react';
 import { actions } from 'react-redux-form';
 
 // Map Redux Store states into Component props
 const mapStateToProps = state => {
     return {
-        dishes: state.dishes,
-        comments: state.comments,
-        promotions: state.promotions,
-        leaders: state.leaders
+        mappedDishes: state.dishes,
+        mappedComments: state.comments,
+        mappedPromotions: state.promotions,
+        mappedLeaders: state.leaders
     }
 };
 
@@ -26,24 +26,30 @@ const mapStateToProps = state => {
 const mapDispatchToProps = (dispatch) => ({
     addComment: (dishId, rating, author, comments) => dispatch(addComment(dishId, rating, author, comments)),
     fetchDishes: () => {dispatch(fetchDishes())},
-    resetFeedbackForm: () => { dispatch(actions.reset('feedback'))}
+    resetFeedbackForm: () => { dispatch(actions.reset('feedback'))},
+    fetchComments: () => {dispatch(fetchComments())},
+    fetchPromos: () => {dispatch(fetchPromos())},
 });
 
 function Main(props) {
 
     useEffect(() => {
         props.fetchDishes();
+        props.fetchComments();
+        props.fetchPromos();
     }, []);
 
     function getHomePage()
     {
         return (
             <Home 
-                dish={props.dishes.dishes.filter((dish) => dish.featured)[0]}
-                dishesLoading={props.dishes.isLoading}
-                dishesErrMess={props.dishes.errMess}
-                promotion={props.promotions.filter((promotion) => promotion.featured)[0]}
-                leader={props.leaders.filter((leader) => leader.featured)[0]}
+                dish={props.mappedDishes.dishes.filter((dish) => dish.featured)[0]}
+                dishesLoading={props.mappedDishes.isLoading}
+                dishesErrMess={props.mappedDishes.errMess}
+                promotion={props.mappedPromotions.promotions.filter((promo) => promo.featured)[0]}
+                promosLoading={props.mappedPromotions.isLoading}
+                promosErrMess={props.mappedPromotions.errMess}
+                leader={props.mappedLeaders.filter((leader) => leader.featured)[0]}
             />
         );
     }
@@ -52,11 +58,12 @@ function Main(props) {
         const params = useParams();
         return (
             <DishDetail 
-                dish={props.dishes.dishes.filter(dish => dish.id === parseInt(params.dishId,10))[0]}
-                isLoading={props.dishes.isLoading}
-                errMess={props.dishes.errMess}
-                comments={props.comments.filter(comments => comments.dishId === parseInt(params.dishId,10))}
-                addComment={props.addComment}
+                dish={props.mappedDishes.dishes.filter(dish => dish.id === parseInt(params.dishId,10))[0]}
+                isLoading={props.mappedDishes.isLoading}
+                errMess={props.mappedDishes.errMess}
+                comments={props.mappedComments.comments.filter((comment) => comment.dishId === parseInt(params.dishId,10))}
+                commentsErrMess={props.mappedComments.errMess}
+                addComment={props.addCSomment}
             />
         );
     }
@@ -68,7 +75,7 @@ function Main(props) {
                 <Route path="/home" element={
                     getHomePage()
                 } />
-                <Route exact path="/menu" element={<Menu dishes={props.dishes} />} />
+                <Route exact path="/menu" element={<Menu dishes={props.mappedDishes} />} />
                 <Route path="/menu/:dishId" element={<DishWithId />}/>
                 <Route path="/contactus" element={<Contact resetFeedbackForm={props.resetFeedbackForm} />} />
                 <Route path="/aboutus" element={<About leaders={props.leaders}/>} />
