@@ -4,8 +4,6 @@ import Loading from './LoadingComponent';
 import { baseUrl } from '../shared/baseUrl';
 
 function RenderCard({item, isLoading, errMess}) {
-    console.log("Is Loading: " + isLoading);
-    console.log("ErrMess: " + errMess);
     if (isLoading) {
         return (
             <Loading />
