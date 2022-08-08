@@ -18,7 +18,7 @@ function CommentForm(props) {
 
     const handleSubmit = (values) => {
         toggle();
-        props.addComment(props.dishId, values.rating, values.author, values.comment);
+        props.postComment(props.dishId, values.rating, values.author, values.comment);
     };
 
     const ratingOptions = [
@@ -45,9 +45,17 @@ function CommentForm(props) {
                             <Row className="form-group">
                                 <Label htmlFor="rating" md={12}>Rating</Label>                         
                                 <Col md={12}>
-                                    <Select model='.rating' 
-                                    options={ratingOptions} 
-                                    />
+                                    <Control.select model='.rating'
+                                    id="rating"
+                                    name="rating"
+                                    className="form-control"
+                                    defaultValue='5'>
+                                        <option value='1'>1</option>
+                                        <option value='2'>2</option>
+                                        <option value='3'>3</option>
+                                        <option value='4'>4</option>
+                                        <option value='5'>5</option>    
+                                    </Control.select>
                                 </Col>
                             </Row>
                             <Row className="form-group">
@@ -110,7 +118,7 @@ function formatDate(dateString){
     return date.toLocaleDateString("en-US", options);
 }
 
-function RenderComments({comments, dishId, addComment}) {
+function RenderComments({comments, dishId, postComment}) {
     const contents = comments.map(comment => {
         return (
             <ul key={comment.id} className="list-unstyled">
@@ -124,7 +132,7 @@ function RenderComments({comments, dishId, addComment}) {
         <div>
             <h4>Comments</h4>
             {contents}
-            <CommentForm dishId={dishId} addComment={addComment}/>
+            <CommentForm dishId={dishId} postComment={postComment}/>
         </div>
     );
 }
@@ -190,7 +198,7 @@ function DishDetail(props) {
                         <RenderComments 
                             comments={props.comments} 
                             dishId={props.dish.id}
-                            addComment={props.addComment}
+                            postComment={props.postComment}
                         />
                     </div>
                 </div>

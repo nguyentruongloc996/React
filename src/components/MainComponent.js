@@ -7,7 +7,7 @@ import Footer from './FooterComponent';
 import About from './AboutComponent';
 import { Routes, Route, useParams } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { addComment, fetchComments, fetchDishes, fetchPromos } from '../redux/ActionCreater';
+import { postComment, fetchComments, fetchDishes, fetchPromos } from '../redux/ActionCreater';
 import { useEffect } from 'react';
 import { actions } from 'react-redux-form';
 
@@ -24,7 +24,7 @@ const mapStateToProps = state => {
 // addComment function return an Action
 // then dispatch receive that Action as parameter to send it to store
 const mapDispatchToProps = (dispatch) => ({
-    addComment: (dishId, rating, author, comments) => dispatch(addComment(dishId, rating, author, comments)),
+    postComment: (dishId, rating, author, comments) => dispatch(postComment(dishId, rating, author, comments)),
     fetchDishes: () => {dispatch(fetchDishes())},
     resetFeedbackForm: () => { dispatch(actions.reset('feedback'))},
     fetchComments: () => {dispatch(fetchComments())},
@@ -63,7 +63,7 @@ function Main(props) {
                 errMess={props.mappedDishes.errMess}
                 comments={props.mappedComments.comments.filter((comment) => comment.dishId === parseInt(params.dishId,10))}
                 commentsErrMess={props.mappedComments.errMess}
-                addComment={props.addCSomment}
+                postComment={props.postComment}
             />
         );
     }
